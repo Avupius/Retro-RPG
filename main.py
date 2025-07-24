@@ -1,15 +1,16 @@
 import pygame 
+import json
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
-        self.spritesheet = pygame.image.load("assets/Player.png").convert_alpha()
+        self.spritesheet = pygame.image.load("assets/Cute_Fantasy_Free/Player/Player.png").convert_alpha()
 
         #Einstellungen
         self.frame_width = 32
         self.frame_height = 32
         self.frames_per_row = 6
-        self.frames_scale = 2
+        self.frames_scale = 1
 
         #Frames vorbereiten
         self.frames = {
@@ -25,6 +26,7 @@ class Player(pygame.sprite.Sprite):
         self.animation_timer = 0
         self.image = self.frames[self.direction][self.frame_index]
         self.rect = self.image.get_rect(topleft = pos)
+        self.pos = pygame.Vector2(self.rect.topleft)
         self.speed = 100
 
     def load_frames(self, row):
@@ -39,27 +41,46 @@ class Player(pygame.sprite.Sprite):
         return frames
 
 
-    def update(self, dt):
+    def update(self, dt, collision_rect):
         keys = pygame.key.get_pressed()
+        dx, dy = 0, 0
         moving = False
         
         if keys[pygame.K_w]:
-            self.rect.y -= self.speed * dt
+            dy -= self.speed * dt
             self.direction = "up"
             moving = True
         if keys[pygame.K_s]:
-            self.rect.y += self.speed * dt
+            dy += self.speed * dt
             self.direction = "down"
             moving = True
         if keys[pygame.K_a]:
-            self.rect.x -= self.speed * dt
+            dx -= self.speed * dt
             self.direction = "left"
             moving = True
         if keys[pygame.K_d]:
-            self.rect.x += self.speed * dt
+            dx += self.speed * dt
             self.direction = "right"
             moving = True
+        
+        #Bewegung in X/Y-Richtung und Kollision prüfung
+        self.pos.x += dx
+        self.rect.x = round(self.pos.x)
+        for rect in collision_rect:
+            if self.rect.colliderect(rect):
+                self.pos.x -= dx
+                self.rect.x = round(self.pos.x)
+        
 
+        self.pos.y += dy
+        self.rect.y = round(self.pos.y)
+        for rect in collision_rect:
+            if self.rect.colliderect(rect):
+                self.pos.y -= dy
+                self.rect.y = round(self.pos.y)
+        
+
+        #Animationen
         if moving:
             self.animation_timer += dt
             if self.animation_timer >= 0.1:
@@ -72,81 +93,119 @@ class Player(pygame.sprite.Sprite):
             self.frame_index = 0
             self.image = self.frames[self.direction][self.frame_index]
 
+    def draw_player(self, surface, scale):
+        scaled_image = pygame.transform.scale(self.image, (self.image.get_width() * scale, self.image.get_height() * scale))
+        surface.blit(scaled_image, (round(self.rect.x * scale), round(self.rect.y * scale)))
+
+
+class LoadMap:
+    def __init__(self, map):
+        with open(map) as f:
+            self.map_data = json.load(f)
+
+        self.tile_width = self.map_data["tilewidth"]
+        self.tile_height = self.map_data["tileheight"]
+        self.width = self.map_data["width"]
+        self.height = self.map_data["height"]
+        self.scale = 2
+        self.interact_areas = self.load_interactions_areas()
+
+        self.tilesets = self.load_tilesets()
+        self.layers = [layer for layer in self.map_data["layers"] if layer["type"] == "tilelayer"]
+
+    def load_tilesets(self):
+        tilesets = []
+        for ts in self.map_data["tilesets"]:
+            image_path = ts["image"].replace("../", "")
+            image = pygame.image.load(image_path).convert_alpha()
+            tilesets.append({
+                "firstgid": ts["firstgid"],
+                "tilecount": ts["tilecount"],
+                "columns": ts["columns"],
+                "tilewidth": ts["tilewidth"],
+                "tileheight": ts["tileheight"],
+                "image": image,
+                "imagewidth": ts["imagewidth"],
+                "imageheight": ts["imageheight"]
+            })
+        print("Tilesets geladen:", [ts["firstgid"] for ts in tilesets])
+        return tilesets
+
+    def get_tile_image_by_gid(self, gid):
+        if gid == 0:
+            return None
+        
+        for ts in reversed(self.tilesets):
+            if gid >= ts["firstgid"]:
+                local_id = gid - ts["firstgid"]
+                columns = ts["columns"]
+                x = (local_id % columns) * ts["tilewidth"]
+                y = (local_id // columns) * ts["tileheight"]
+                rect = pygame.Rect(x, y, ts["tilewidth"], ts["tileheight"])
+                return ts["image"].subsurface(rect)
+        return None
+
+    def draw(self, surface):
+        for layer in self.layers:
+            data = layer["data"]
+            for i, gid in enumerate(data):
+                tile = self.get_tile_image_by_gid(gid)
+                if tile:
+                    x = (i % self.width) * self.tile_width
+                    y = (i // self.width) * self.tile_height
+                    scaled_tile = pygame.transform.scale(tile, (self.tile_width * self.scale, self.tile_height * self.scale))
+                    surface.blit(scaled_tile, (x * self.scale, y * self.scale))
+
+    def get_collision_rects(self):
+        rect_list = []
+        for layer in self.map_data["layers"]:
+            if layer["type"] == "objectgroup" and layer["name"] == "collision":
+                for obj in layer["objects"]:
+                    x = obj["x"]
+                    y = obj["y"]
+                    w = obj["width"]
+                    h = obj["height"]
+                    rect_list.append(pygame.Rect(x, y, w, h))
+        return rect_list
+
+    def load_interactions_areas(self):
+        areas = []
+        for layer in self.map_data["layers"]:
+            if layer["type"] == "objectgroup" and layer["name"] == "interact":
+                for obj in layer["objects"]:
+                    rect = pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"])
+                    props = {p["name"]: p["value"] for p in obj.get("properties", [])}
+                    areas.append((rect, props))
+        return areas
+
+
+# -- Game-Loop Funktionen --
+def check_interactions(player, current_map):
+    for area, props in current_map.interact_areas:
+        if player.rect.colliderect(area):
+            if "target_map" in props:
+                new_map = LoadMap(f"maps/{props['target_map']}")
+                spawn_x = props.get("spawn_x", 100)
+                spawn_y = props.get("spawn_y", 100)
+                player.pos = pygame.Vector2(spawn_x, spawn_y)
+                player.rect.topleft = player.pos
+                return new_map
+    return current_map
+
 
 # -- Spiel Setup --
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
+screen_scale = 2
+screen_x = 640 * screen_scale
+screen_y = 480 * screen_scale
+screen = pygame.display.set_mode((screen_x, screen_y))
 clock = pygame.time.Clock()
 running = True
 dt = 0
-
+game_map = LoadMap("maps/Map_home.json")
 
 # -- Player erstellen --
-player = Player((100,100))
-all_sprites = pygame.sprite.Group(player)
-
-# -- Map - Layout --
-tile_size = 32
-
-# Bestehende Tiles laden und skalieren
-grass_tile = pygame.transform.scale( 
-        pygame.image.load("assets/Grass_Middle.png").convert_alpha(),
-        (tile_size, tile_size)
-    )
-
-path_tile = pygame.transform.scale(
-        pygame.image.load("assets/Path_Middle.png").convert_alpha(),
-        (tile_size, tile_size)
-    )
-
-water_tile = pygame.transform.scale(
-        pygame.image.load("assets/Water_Middle.png").convert_alpha(),
-        (tile_size, tile_size)
-    )
-
-# -- Weg-Tileset laden und aufteilen --
-path_tileset = pygame.image.load("assets/Path_Tile.png").convert_alpha()
-original_tile_size = 16  # falls dein Tileset 16x16 Tiles hat
-
-def get_tile(tileset ,x, y):
-    tile = pygame.Surface((original_tile_size, original_tile_size), pygame.SRCALPHA)
-    tile.blit(tileset, (0, 0), pygame.Rect(x * original_tile_size, y * original_tile_size, original_tile_size, original_tile_size))
-    tile = pygame.transform.scale(tile, (tile_size, tile_size))  # skalieren auf 256x256
-    return tile
-
-# Weg-Tiles extrahieren
-weg_rand  = get_tile(path_tileset, 0, 0)
-weg_mitte = get_tile(path_tileset, 1, 0)
-weg_ecke  = get_tile(path_tileset, 0, 1)
-fuss_spur = get_tile(path_tileset, 0, 2)
-
-# -- Tile-Images definieren --
-tile_images = {
-    0: grass_tile,
-    1: path_tile,
-    2: water_tile,
-    3: weg_mitte,
-    4: weg_rand,
-    5: weg_ecke,
-    6: fuss_spur
-}
-
-# -- Map-Layout erweitern --
-map_layout = [
-    [0, 1, 3, 3, 2],
-    [4, 3, 6, 3, 2],
-    [5, 0, 0, 3, 2],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 4, 3, 4, 0],
-    [0, 4, 3, 4, 0],
-]
-
+player = Player((100,80))
 
 # -- Game Loop--
 while running:
@@ -157,22 +216,18 @@ while running:
     
     screen.fill((0, 0, 0))
 
-    # Player movment
-    player.update(dt)
+    # Player movment & Kollsion
+    collision_rects = game_map.get_collision_rects()
+    player.update(dt, collision_rects)
+    
+    game_map = check_interactions(player, game_map)
 
     # Bildshirm zeichen
-    for row_index, row in enumerate(map_layout):
-        for col_index, tile_id in enumerate(row):
-            tile_surface = tile_images[tile_id]
-            x = col_index * tile_size
-            y = row_index * tile_size
-            screen.blit(tile_surface, (x, y))
-
-
-    all_sprites.draw(screen)
+    game_map.draw(screen)
+    player.draw_player(screen,scale=screen_scale)
     pygame.display.flip()
 
-    # Frames erechnung
+    # Frames Berechnung
     dt = clock.tick(60) / 1000
 
 
