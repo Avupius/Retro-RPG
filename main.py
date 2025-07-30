@@ -142,6 +142,9 @@ class LoadMap:
                 x = (local_id % columns) * ts["tilewidth"]
                 y = (local_id // columns) * ts["tileheight"]
                 rect = pygame.Rect(x, y, ts["tilewidth"], ts["tileheight"])
+                if rect.right > ts["image"].get_width() or rect.bottom > ts["image"].get_height():
+                    print(f"Ungültiger GID {gid} für Tileset {ts}")
+                    return None  # oder ein Platzhalter-Bild
                 return ts["image"].subsurface(rect)
         return None
 

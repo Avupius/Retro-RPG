@@ -9,23 +9,45 @@
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
-            "scaleInDock": 1
+            "scaleInDock": 2
         },
         "Dungeon_Map.tmx": {
-            "scale": 1.5,
-            "selectedLayer": 0,
+            "expandedObjectLayers": [
+                4,
+                3
+            ],
+            "scale": 2,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 312.66666666666663,
-                "y": 246.3333333333333
+                "x": 428.5,
+                "y": 250.75
             }
         },
         "Dungeon_Map.tmx#Dungeon_1": {
-            "scaleInDock": 1
+            "scaleInDock": 2
         },
         "Dungeon_Map.tmx#Dungeon_1_Arch_Open": {
-            "scaleInDock": 1
+            "scaleInDock": 2
+        },
+        "Dungeon_Map.tmx#Dungeon_1_Gate_Closed": {
+            "scaleInDock": 2
+        },
+        "Dungeon_Map.tmx#Dungeon_1_Pillars": {
+            "scaleInDock": 2
         },
         "Dungeon_Map.tmx#Dungeon_1_Sewer": {
+            "scaleInDock": 1
+        },
+        "Dungeon_Map.tmx#Dungeon_1_Sewer_Tileset": {
+            "scaleInDock": 2
+        },
+        "Dungeon_Map.tmx#Dungeon_Objects": {
+            "scaleInDock": 2
+        },
+        "Dungeon_Map.tmx#Sewer_Water_Decor": {
+            "scaleInDock": 1
+        },
+        "Dungeon_Map.tmx#Small_Wooden_Bridge": {
             "scaleInDock": 1
         },
         "Grass.tsx": {
@@ -69,8 +91,8 @@
         },
         "Map.tmx": {
             "expandedObjectLayers": [
-                4,
-                5
+                5,
+                4
             ],
             "scale": 2.5313541666666666,
             "selectedLayer": 4,
@@ -128,11 +150,38 @@
                 2
             ],
             "scale": 2,
-            "selectedLayer": 1,
+            "selectedLayer": 4,
             "viewCenter": {
                 "x": 352.5,
                 "y": 226.25
             }
+        },
+        "Town_Map.tmx#Barn": {
+            "scaleInDock": 1
+        },
+        "Town_Map.tmx#Benches": {
+            "scaleInDock": 1
+        },
+        "Town_Map.tmx#Big_Birch_Tree": {
+            "scaleInDock": 1
+        },
+        "Town_Map.tmx#Big_Fruit_Tree": {
+            "scaleInDock": 1
+        },
+        "Town_Map.tmx#Big_Oak_Tree": {
+            "scaleInDock": 1
+        },
+        "Town_Map.tmx#Blacksmith_House": {
+            "scaleInDock": 1
+        },
+        "Town_Map.tmx#FarmLand_Wet_Tile": {
+            "scaleInDock": 1
+        },
+        "Town_Map.tmx#Fences": {
+            "scaleInDock": 1
+        },
+        "Town_Map.tmx#Flowers": {
+            "scaleInDock": 1
         },
         "Town_Map.tmx#Grass_1_Middle": {
             "scaleInDock": 1,
@@ -141,11 +190,35 @@
         "Town_Map.tmx#Grass_Tiles_1": {
             "scaleInDock": 1,
             "scaleInEditor": 1
+        },
+        "Town_Map.tmx#House_2_6": {
+            "scaleInDock": 1
+        },
+        "Town_Map.tmx#House_3_5": {
+            "scaleInDock": 1
+        },
+        "Town_Map.tmx#House_4_3": {
+            "scaleInDock": 1
+        },
+        "Town_Map.tmx#House_5_1": {
+            "scaleInDock": 1
+        },
+        "Town_Map.tmx#Lanter_Posts": {
+            "scaleInDock": 1
+        },
+        "Town_Map.tmx#Outdoor_Decor": {
+            "scaleInDock": 1
+        },
+        "Town_Map.tmx#Well": {
+            "scaleInDock": 1
+        },
+        "Town_Map.tmx#Windmill": {
+            "scaleInDock": 1
         }
     },
     "last.exportedFilePath": "/home/ck/git/pygame/maps",
     "last.externalTilesetPath": "/home/ck/git/pygame/assets/Tileset/Cute_Fantasy/Trees",
-    "last.imagePath": "/home/ck/git/pygame/assets/Tileset/Cute_Fantasy/House/Objects",
+    "last.imagePath": "/home/ck/git/pygame/assets/Tileset/Cute_Fantasy_Dungeons/Objects",
     "map.height": 30,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
@@ -155,7 +228,7 @@
     "openFiles": [
     ],
     "project": "Map1.tiled-project",
-    "property.type": "string",
+    "property.type": "float",
     "recentFiles": [
         "Grass2.tsx",
         "Grass.tsx"

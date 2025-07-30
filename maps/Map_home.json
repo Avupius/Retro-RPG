@@ -463,8 +463,8 @@
                  "type":"",
                  "visible":true,
                  "width":31.0696,
-                 "x":63.0175545286202,
-                 "y":96.2127181144809
+                 "x":63.0176,
+                 "y":96.2127
                 }, 
                 {
                  "ellipse":true,
@@ -523,8 +523,8 @@
                  "type":"",
                  "visible":true,
                  "width":31.0696,
-                 "x":272.802181885519,
-                 "y":176.45990905724
+                 "x":272.802,
+                 "y":176.46
                 }, 
                 {
                  "ellipse":true,
@@ -595,8 +595,8 @@
                  "type":"",
                  "visible":true,
                  "width":31.0696,
-                 "x":575.982727171721,
-                 "y":336.110818114481
+                 "x":575.983,
+                 "y":336.111
                 },
             
                 {
@@ -641,26 +641,26 @@
                 }, 
                 {
                  "ellipse":true,
-                 "height":3.80390981482248,
+                 "height":3.80391,
                  "id":90,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":4.26111792930328,
-                 "x":262.413363771038,
-                 "y":297.048363771038
+                 "width":4.26112,
+                 "x":262.413,
+                 "y":297.048
                 }, 
                 {
                  "ellipse":true,
-                 "height":5.77913717172133,
+                 "height":5.77914,
                  "id":91,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":6.06980887206288,
-                 "x":389.747363771038,
+                 "width":6.06981,
+                 "x":389.747,
                  "y":119.185
                 }],
          "opacity":1,
@@ -675,7 +675,7 @@
          "name":"interact",
          "objects":[
                 {
-                 "height":29.2333648821036,
+                 "height":29.2334,
                  "id":92,
                  "name":"Town_enter",
                  "properties":[
@@ -697,15 +697,25 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":9.08604584173491,
-                 "x":1.18513641413934,
-                 "y":200.288053989548
+                 "width":9.08605,
+                 "x":1.18514,
+                 "y":200.288
                 }, 
                 {
-                 "height":9.48109131311469,
+                 "height":9.48109,
                  "id":94,
                  "name":"Dungeon_enter",
                  "properties":[
+                        {
+                         "name":"spawn_x",
+                         "type":"float",
+                         "value":407
+                        }, 
+                        {
+                         "name":"spawn_y",
+                         "type":"float",
+                         "value":424
+                        }, 
                         {
                          "name":"target_map",
                          "type":"string",
@@ -714,12 +724,12 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":29.2333648821036,
-                 "x":409.66215382083,
-                 "y":0.790090942759557
+                 "width":29.2334,
+                 "x":409.662,
+                 "y":0.790091
                 }, 
                 {
-                 "height":18.9621826262294,
+                 "height":18.9622,
                  "id":95,
                  "name":"house_enter",
                  "properties":[
@@ -731,9 +741,9 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":16.1968643265709,
-                 "x":450.351837372948,
-                 "y":277.716966379984
+                 "width":16.1969,
+                 "x":450.352,
+                 "y":277.717
                 }, 
                 {
                  "height":0,
@@ -744,8 +754,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":56.8865478786881,
-                 "y":186.461462491256
+                 "x":56.8865,
+                 "y":186.461
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -754,7 +764,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":103,
+ "nextobjectid":104,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",
