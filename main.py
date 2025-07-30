@@ -1,6 +1,8 @@
 import pygame 
 import json
 
+from pygame.transform import scale
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
@@ -109,9 +111,20 @@ class LoadMap:
         self.height = self.map_data["height"]
         self.scale = 2
         self.interact_areas = self.load_interactions_areas()
-
         self.tilesets = self.load_tilesets()
         self.layers = [layer for layer in self.map_data["layers"] if layer["type"] == "tilelayer"]
+        self.validate_gid()
+
+    def validate_gid(self):
+        for layer in self.layers:
+            for gid in layer["data"]:
+                if gid == 0:
+                    continue
+
+                tile = self.get_tile_image_by_gid(gid)
+                
+                if tile is None:
+                    print(f"GID: {gid}, in Map {self.map_data.get('name', 'Unbekannt')}")
 
     def load_tilesets(self):
         tilesets = []
@@ -138,14 +151,23 @@ class LoadMap:
         for ts in reversed(self.tilesets):
             if gid >= ts["firstgid"]:
                 local_id = gid - ts["firstgid"]
+                
+                if local_id >= ts["tilecount"]:
+                   return None
+
+
                 columns = ts["columns"]
                 x = (local_id % columns) * ts["tilewidth"]
                 y = (local_id // columns) * ts["tileheight"]
                 rect = pygame.Rect(x, y, ts["tilewidth"], ts["tileheight"])
+
                 if rect.right > ts["image"].get_width() or rect.bottom > ts["image"].get_height():
                     print(f"Ungültiger GID {gid} für Tileset {ts}")
-                    return None  # oder ein Platzhalter-Bild
+                    return None 
+                
                 return ts["image"].subsurface(rect)
+        
+        print(f"Kein Tileset gefunden {gid}")
         return None
 
     def draw(self, surface):
@@ -158,6 +180,15 @@ class LoadMap:
                     y = (i // self.width) * self.tile_height
                     scaled_tile = pygame.transform.scale(tile, (self.tile_width * self.scale, self.tile_height * self.scale))
                     surface.blit(scaled_tile, (x * self.scale, y * self.scale))
+                    #else:
+                    #x = (i % self.width) * self.tile_width
+                    #y = (i // self.width) * self.tile_height
+                    #placeholder = pygame.Surface((self.tile_width * self.scale, self.tile_height * self.scale))
+                    #placeholder.fill((255,0,0))
+                    #surface.blit(placeholder, ((x * self.scale) , (y * self.scale) ))
+ 
+
+
 
     def get_collision_rects(self):
         rect_list = []

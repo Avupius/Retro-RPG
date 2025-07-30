@@ -9,7 +9,7 @@
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
-            "scaleInDock": 2
+            "scaleInDock": 1
         },
         "Dungeon_Map.tmx": {
             "expandedObjectLayers": [
@@ -17,7 +17,7 @@
                 3
             ],
             "scale": 2,
-            "selectedLayer": 3,
+            "selectedLayer": 1,
             "viewCenter": {
                 "x": 428.5,
                 "y": 250.75
@@ -95,7 +95,7 @@
                 4
             ],
             "scale": 2.5313541666666666,
-            "selectedLayer": 4,
+            "selectedLayer": 3,
             "viewCenter": {
                 "x": 319.98683181762067,
                 "y": 239.99012386321553
@@ -147,10 +147,11 @@
         },
         "Town_Map.tmx": {
             "expandedObjectLayers": [
+                7,
                 2
             ],
             "scale": 2,
-            "selectedLayer": 4,
+            "selectedLayer": 5,
             "viewCenter": {
                 "x": 352.5,
                 "y": 226.25
@@ -230,6 +231,7 @@
     "project": "Map1.tiled-project",
     "property.type": "float",
     "recentFiles": [
+        "Town_Map.tmx",
         "Grass2.tsx",
         "Grass.tsx"
     ],
