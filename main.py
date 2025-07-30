@@ -236,7 +236,7 @@ screen = pygame.display.set_mode((screen_x, screen_y))
 clock = pygame.time.Clock()
 running = True
 dt = 0
-game_map = LoadMap("maps/Map_home.json")
+game_map = LoadMap("maps/start_map.json")
 
 # -- Player erstellen --
 player = Player((100,80))
