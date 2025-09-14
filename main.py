@@ -1,5 +1,6 @@
 import pygame 
 import json
+import pygame_menu
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
@@ -227,14 +228,25 @@ def check_interactions(player, current_map):
 
 # -- Spiel Setup --
 pygame.init()
+pygame.display.set_caption("Retro RPG")
 screen_scale = 2
 screen_x = 640 * screen_scale
 screen_y = 480 * screen_scale
 screen = pygame.display.set_mode((screen_x, screen_y))
 clock = pygame.time.Clock()
 running = True
+show_menu = True
 dt = 0
 game_map = LoadMap("maps/start_map.json")
+
+# -- Menü --
+menu = pygame_menu.Menu("Hauptmenü", 800, 600, theme=pygame_menu.themes.THEME_DARK, onclose=pygame_menu.events.CLOSE)
+menu.add.button("Spielen", pygame_menu.events.CLOSE)
+menu.add.button("Spiel laden")
+menu.add.button("Spiel beenden", pygame_menu.events.EXIT)
+
+menu.mainloop(screen)
+
 
 # -- Player erstellen --
 player = Player((100,80))
