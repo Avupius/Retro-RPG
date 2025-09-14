@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="83">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="85">
  <editorsettings>
   <export target="../../maps/town_map.json" format="json"/>
  </editorsettings>
@@ -233,8 +233,8 @@
  <objectgroup id="7" name="collision">
   <object id="16" x="56.5" y="71.5" width="18" height="0.5"/>
   <object id="17" x="55.5" y="75.5" width="1" height="69"/>
-  <object id="18" x="57" y="152" width="159" height="0.5"/>
-  <object id="19" x="215" y="154" width="1" height="78.5"/>
+  <object id="18" x="57" y="150" width="159" height="2.5"/>
+  <object id="19" x="215" y="154" width="4" height="78.5"/>
   <object id="20" x="295.5" y="182" width="160" height="2.5"/>
   <object id="21" x="280" y="37.5" width="1.5" height="83"/>
   <object id="22" x="489" y="182" width="78" height="2"/>
@@ -246,10 +246,10 @@
   <object id="28" x="538" y="265" width="60" height="46"/>
   <object id="29" x="584" y="422" width="18.5" height="20.5"/>
   <object id="30" x="281" y="375.5" width="127.5" height="2.5"/>
-  <object id="31" x="280" y="380.5" width="1.5" height="72"/>
+  <object id="31" x="278" y="380.5" width="3.5" height="72"/>
   <object id="32" x="119.5" y="456.5" width="160" height="2"/>
   <object id="33" x="7" y="456" width="83" height="2"/>
-  <object id="34" x="8" y="393.5" width="113"/>
+  <object id="34" x="8" y="390" width="113" height="3.5"/>
   <object id="35" x="214.5" y="309.5" width="1" height="84.5"/>
   <object id="36" x="83" y="26" width="76" height="37"/>
   <object id="37" x="76" y="191" width="109.5" height="36.5"/>
@@ -265,7 +265,7 @@
   <object id="43" x="22" y="261" width="19.5" height="22">
    <ellipse/>
   </object>
-  <object id="44" x="372.5" y="242" width="21" height="23">
+  <object id="44" x="371.5" y="251" width="21" height="23">
    <ellipse/>
   </object>
   <object id="45" x="319.5" y="262" width="1.5" height="27"/>
@@ -312,14 +312,16 @@
   <object id="79" x="-7.5" y="479.5" width="648" height="8"/>
   <object id="80" x="641" y="-0.5" width="6.5" height="488.5"/>
   <object id="81" x="-10" y="-11" width="657.5" height="10"/>
-  <object id="82" x="701" y="101.5"/>
+  <object id="84" x="142" y="319">
+   <polygon points="0,0 28.5,-41.5 55,1"/>
+  </object>
  </objectgroup>
  <objectgroup id="2" name="interact">
   <object id="1" x="626" y="202.5" width="12" height="28">
    <properties>
     <property name="spawn_x" type="float" value="56"/>
     <property name="spawn_y" type="float" value="186"/>
-    <property name="target_map" value="Map_home.json"/>
+    <property name="target_map" value="start_map.json"/>
    </properties>
   </object>
  </objectgroup>

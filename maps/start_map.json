@@ -635,9 +635,9 @@
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":5.99776547137977,
-                 "x":196.83290905724,
-                 "y":179.920545286202
+                 "width":5.99777,
+                 "x":196.833,
+                 "y":179.921
                 }, 
                 {
                  "ellipse":true,
@@ -734,6 +734,16 @@
                  "name":"house_enter",
                  "properties":[
                         {
+                         "name":"spawn_x",
+                         "type":"float",
+                         "value":320
+                        }, 
+                        {
+                         "name":"spawn_y",
+                         "type":"float",
+                         "value":439
+                        }, 
+                        {
                          "name":"target_map",
                          "type":"string",
                          "value":"home_map.json"
@@ -764,7 +774,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":104,
+ "nextobjectid":105,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",

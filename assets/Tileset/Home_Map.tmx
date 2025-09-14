@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="1">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="19">
  <editorsettings>
   <export target="../../maps/home_map.json" format="json"/>
  </editorsettings>
@@ -53,9 +53,9 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,395,61,61,61,61,61,61,61,61,61,74,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,395,61,61,61,61,61,61,61,61,61,395,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,395,61,61,61,61,61,61,61,61,61,395,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,395,395,395,395,395,61,395,395,395,395,395,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,395,61,395,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,395,61,395,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,395,395,395,395,61,61,61,395,395,395,395,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,395,61,61,61,395,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,395,61,61,61,395,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
  <layer id="2" name="Tile Layer 2" width="40" height="30">
@@ -92,4 +92,28 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="3" name="collision">
+  <object id="1" x="228" y="210.5" width="20.5" height="232.5"/>
+  <object id="2" x="256" y="436" width="49.5" height="13"/>
+  <object id="3" x="297.5" y="456.5" width="1.5" height="22.5"/>
+  <object id="5" x="362.5" y="437.5" width="8.5" height="42"/>
+  <object id="6" x="365.5" y="439" width="50" height="8"/>
+  <object id="7" x="406.5" y="212.5" width="27" height="222"/>
+  <object id="8" x="237" y="199" width="200.5" height="24"/>
+  <object id="13" x="261" y="246.5" width="1.5" height="20"/>
+  <object id="14" x="311.5" y="243.5" width="1" height="3"/>
+  <object id="15" x="340" y="239.5" width="60" height="4.5"/>
+  <object id="16" x="295" y="357.5" width="3" height="36"/>
+  <object id="17" x="357.5" y="342.5" width="38" height="2.5"/>
+  <object id="18" x="391.5" y="391" width="2.5" height="15.5"/>
+ </objectgroup>
+ <objectgroup id="4" name="interact">
+  <object id="11" x="303" y="485.5" width="47.5" height="7">
+   <properties>
+    <property name="spawn_x" type="float" value="457"/>
+    <property name="spawn_y" type="float" value="313"/>
+    <property name="target_map" value="start_map.json"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "Dungeon_Map.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -17,10 +17,10 @@
                 3
             ],
             "scale": 2,
-            "selectedLayer": 1,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 428.5,
-                "y": 250.75
+                "x": 315.25,
+                "y": 288.25
             }
         },
         "Dungeon_Map.tmx#Dungeon_1": {
@@ -61,11 +61,15 @@
             "scaleInEditor": 1
         },
         "Home_Map.tmx": {
+            "expandedObjectLayers": [
+                4,
+                3
+            ],
             "scale": 2,
-            "selectedLayer": 1,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 305,
-                "y": 285.75
+                "x": 312.25,
+                "y": 308.75
             }
         },
         "Home_Map.tmx#Doors": {
@@ -91,14 +95,13 @@
         },
         "Map.tmx": {
             "expandedObjectLayers": [
-                5,
-                4
+                5
             ],
             "scale": 2.5313541666666666,
-            "selectedLayer": 3,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 319.98683181762067,
-                "y": 239.99012386321553
+                "x": 330.8505822805646,
+                "y": 230.11398707872104
             }
         },
         "Map.tmx#Big_Oak_Tree": {
@@ -147,14 +150,14 @@
         },
         "Town_Map.tmx": {
             "expandedObjectLayers": [
-                7,
-                2
+                2,
+                7
             ],
             "scale": 2,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 352.5,
-                "y": 226.25
+                "x": 250.75,
+                "y": 228.75
             }
         },
         "Town_Map.tmx#Barn": {
@@ -227,11 +230,18 @@
     "map.tileWidth": 16,
     "map.width": 40,
     "openFiles": [
+        "Dungeon_Map.tmx",
+        "Map.tmx",
+        "Home_Map.tmx",
+        "Town_Map.tmx"
     ],
     "project": "Map1.tiled-project",
     "property.type": "float",
     "recentFiles": [
         "Town_Map.tmx",
+        "Home_Map.tmx",
+        "Map.tmx",
+        "Dungeon_Map.tmx",
         "Grass2.tsx",
         "Grass.tsx"
     ],

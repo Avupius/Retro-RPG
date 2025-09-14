@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="104">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="105">
  <editorsettings>
-  <export target="../../maps/Map_home.json" format="json"/>
+  <export target="../../maps/start_map.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="Bridge_Wood" tilewidth="16" tileheight="16" tilecount="36" columns="9">
   <image source="Cute_Fantasy/Tiles/Bridge/Bridge_Wood.png" width="144" height="64"/>
@@ -241,6 +241,8 @@
   </object>
   <object id="95" name="house_enter" x="450.352" y="277.717" width="16.1969" height="18.9622">
    <properties>
+    <property name="spawn_x" type="float" value="320"/>
+    <property name="spawn_y" type="float" value="439"/>
     <property name="target_map" value="home_map.json"/>
    </properties>
   </object>

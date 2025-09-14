@@ -1,8 +1,6 @@
 import pygame 
 import json
 
-from pygame.transform import scale
-
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
