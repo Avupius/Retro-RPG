@@ -13,14 +13,14 @@
         },
         "Dungeon_Map.tmx": {
             "expandedObjectLayers": [
-                4,
-                3
+                3,
+                4
             ],
             "scale": 2,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 315.25,
-                "y": 288.25
+                "x": 334.25,
+                "y": 189.25
             }
         },
         "Dungeon_Map.tmx#Dungeon_1": {
@@ -47,6 +47,9 @@
         "Dungeon_Map.tmx#Sewer_Water_Decor": {
             "scaleInDock": 1
         },
+        "Dungeon_Map.tmx#Slime_Big_Green": {
+            "scaleInDock": 1
+        },
         "Dungeon_Map.tmx#Small_Wooden_Bridge": {
             "scaleInDock": 1
         },
@@ -62,8 +65,8 @@
         },
         "Home_Map.tmx": {
             "expandedObjectLayers": [
-                4,
-                3
+                3,
+                4
             ],
             "scale": 2,
             "selectedLayer": 2,
@@ -101,7 +104,7 @@
             "selectedLayer": 4,
             "viewCenter": {
                 "x": 330.8505822805646,
-                "y": 230.11398707872104
+                "y": 230.11398707872107
             }
         },
         "Map.tmx#Big_Oak_Tree": {
@@ -150,8 +153,8 @@
         },
         "Town_Map.tmx": {
             "expandedObjectLayers": [
-                2,
-                7
+                7,
+                2
             ],
             "scale": 2,
             "selectedLayer": 5,
@@ -222,7 +225,7 @@
     },
     "last.exportedFilePath": "/home/ck/git/pygame/maps",
     "last.externalTilesetPath": "/home/ck/git/pygame/assets/Tileset/Cute_Fantasy/Trees",
-    "last.imagePath": "/home/ck/git/pygame/assets/Tileset/Cute_Fantasy_Dungeons/Objects",
+    "last.imagePath": "/home/ck/git/pygame/assets/Tileset/Cute_Fantasy/Enemies/Slime/Slime_Big",
     "map.height": 30,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",

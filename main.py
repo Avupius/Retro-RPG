@@ -1,6 +1,6 @@
+import os
 import pygame 
 import json
-from pygame.transform import scale
 import pygame_menu
 
 class Player(pygame.sprite.Sprite):
@@ -182,6 +182,103 @@ class Player(pygame.sprite.Sprite):
 
         self.attack_sprites.add(hitbox)
 
+class Enemy(pygame.sprite.Sprite):
+    def __init__(self, pos, spritesheet_path, frame_width=32, frame_height=32, frames_per_row=3, speed=1):
+        super().__init__()
+        self.spritesheet = pygame.image.load(spritesheet_path).convert_alpha()
+        
+        #Pixel Einstellungen
+        self.frame_width = frame_width
+        self.frame_height = frame_height
+        self.frames_per_row = frames_per_row
+        self.speed = speed
+        self.frames_scale = 2
+        self.speed = speed
+
+
+
+        #Frames vorbereiten
+        self.frames = {
+            "down": self.load_frames(0),
+            "left": self.load_frames(3),
+            "right": self.load_frames(1),
+            "up" : self.load_frames(2)
+        }
+
+        #Start
+        self.direction = "down"
+        self.frame_index = 0
+        self.animation_timer = 0
+        self.image = self.frames[self.direction][self.frame_index]
+        
+        self.pos = pygame.Vector2(pos)
+        self.rect = self.image.get_rect(topleft=pos)
+
+        self.move_timer = 0
+        self.move_direction = pygame.Vector2(0, 0)
+
+    def load_frames(self, row):
+        frames = []
+        for i in range(self.frames_per_row):
+            frame = pygame.Surface((self.frame_width, self.frame_height), pygame.SRCALPHA)
+            x = i * self.frame_width
+            y = row * self.frame_height
+            frame = self.spritesheet.subsurface(pygame.Rect(x, y, self.frame_width, self.frame_height))
+            frames.append(frame)
+        return frames
+
+    def draw(self, surface, scale: int = 1):
+        scaled_img = pygame.transform.scale(self.image,(self.image.get_width() * scale, self.image.get_height() * scale))
+        surface.blit(scaled_img, (round(self.rect.x * scale), round(self.rect.y * scale)))
+
+
+    def update(self, dt, player):
+        player_center = pygame.Vector2(player.rect.center)
+        slime_center = pygame.Vector2(self.rect.center)
+
+
+        distance = player_center - slime_center
+        dist_len = distance.length()
+
+        
+        if dist_len < 250:
+
+            if dist_len > 20:
+                direction = distance.normalize()
+                self.pos.x += direction.x * self.speed * dt
+                self.pos.y += direction.y * self.speed * dt
+
+                #Richtungssprite setzen
+                if abs(direction.x) > abs(direction.y):
+                    self.direction = "right" if direction.x > 0 else "left"
+                else:
+                    self.direction = "down" if direction.y > 0 else "up"
+
+
+                self.animation_timer += dt * 1000
+                if self.animation_timer > 200:
+                    self.animation_timer = 0
+                    self.frame_index = (self.frame_index + 1) % len(self.frames[self.direction])
+                    self.image = self.frames[self.direction][self.frame_index]
+
+            else:
+                self.image = self.frames[self.direction][0]
+
+        else:
+            self.image = self.frames["down"][0]
+
+        self.rect.topleft = self.pos
+
+class Slime(Enemy):
+    def __init__(self, pos):
+        super().__init__(pos, "assets/Tileset/Cute_Fantasy/Enemies/Slime/Slime_Big/Slime_Big_Green.png", frame_width=64, frame_height=64, frames_per_row=8, speed=50)
+
+        self.health = 10
+        self.attack = 2
+
+       
+
+
 class AttackHitbox(pygame.sprite.Sprite):
     def __init__(self, owner, damage, range_px, width_px, duration_ms, direction, enemies_group):
         super().__init__()
@@ -213,10 +310,15 @@ class AttackHitbox(pygame.sprite.Sprite):
             return
 
         for enemy in pygame.sprite.spritecollide(self, self.enemies_group, False):
-            if enemy not in self.hit_enemies:
-                if hasattr(enemy, "take damage"):
-                    enemy.take_damage(self.damage)
-                self.hit_enemies.add(enemy)
+            if enemy in self.hit_enemies:
+                continue
+
+            if hasattr(enemy, "take damage"):
+                to_enemy = pygame.Vector2(enemy.rect.center) - pygame.Vector2(self.owner.rect.center)
+                enemy.take_damage(self.damage, knockback_vec=to_enemy)
+
+            self.hit_enemies.add(enemy)
+
 
     def draw(self, surface, scale: int = 1):
         if scale == 1:
@@ -243,6 +345,7 @@ class LoadMap:
         self.tilesets = self.load_tilesets()
         self.layers = [layer for layer in self.map_data["layers"] if layer["type"] == "tilelayer"]
         self.validate_gid()
+        self.name = os.path.splitext(os.path.basename(map))[0]
 
     def validate_gid(self):
         for layer in self.layers:
@@ -372,17 +475,20 @@ dt = 0
 game_map = LoadMap("maps/start_map.json")
 
 # -- Menü --
-menu = pygame_menu.Menu("Hauptmenü", 800, 600, theme=pygame_menu.themes.THEME_DARK, onclose=pygame_menu.events.CLOSE)
-menu.add.button("Spielen", pygame_menu.events.CLOSE)
-menu.add.button("Spiel laden")
-menu.add.button("Spiel beenden", pygame_menu.events.EXIT)
+#menu = pygame_menu.Menu("Hauptmenü", 800, 600, theme=pygame_menu.themes.THEME_DARK, onclose=pygame_menu.events.CLOSE)
+#menu.add.button("Spielen", pygame_menu.events.CLOSE)
+#menu.add.button("Spiel laden")
+#menu.add.button("Spiel beenden", pygame_menu.events.EXIT)
 
-menu.mainloop(screen)
+#menu.mainloop(screen)
 
 
 attack_sprites =pygame.sprite.Group()
 
 enemies = pygame.sprite.Group()
+
+if game_map.name == "dungeon_map":
+    enemies.add(Slime((100,60)))
 
 # -- Player erstellen --
 player = Player((100,80), attack_sprites = attack_sprites, enemies_group = enemies)
@@ -405,12 +511,28 @@ while running:
     
     attack_sprites.update()
 
+
+    old_map = game_map
     game_map = check_interactions(player, game_map)
 
+    if game_map != old_map:
+        enemies.empty()
+        if game_map.name == "dungeon_map":
+            enemies.add(Slime((100, 60)))
+            
+    for enemy in enemies:
+        enemy.update(dt, player)
+
     # Bildshirm zeichen
+    screen.fill((0, 0, 0))
     game_map.draw(screen)
+    
+    for enemy in enemies:
+        enemy.draw(screen, scale=screen_scale)
+    
     player.draw_player(screen,scale=screen_scale)
     
+
     for hb in attack_sprites:
         hb.draw(screen, scale=screen_scale)
 
