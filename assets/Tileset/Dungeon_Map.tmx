@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="58">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="59">
  <editorsettings>
   <export target="../../maps/dungeon_map.json" format="json"/>
  </editorsettings>
@@ -95,11 +95,11 @@
  <objectgroup id="3" name="collision">
   <object id="1" x="343" y="36" width="112.5" height="20.5"/>
   <object id="2" x="343" y="127" width="31" height="49"/>
-  <object id="3" x="257.5" y="175" width="115.5" height="6.5"/>
+  <object id="3" x="220.5" y="175" width="152.5" height="6.5"/>
   <object id="4" x="4" y="175" width="214" height="7"/>
   <object id="5" x="440" y="128" width="16" height="47.5"/>
   <object id="7" x="444" y="174" width="85" height="7"/>
-  <object id="9" x="575" y="174.5" width="58" height="6"/>
+  <object id="9" x="531.5" y="174.5" width="101.5" height="6"/>
   <object id="10" x="443.5" y="256.5" width="76" height="50"/>
   <object id="11" x="592" y="258" width="44" height="45.5"/>
   <object id="12" x="444.5" y="317.5" width="10.5" height="160.5"/>
@@ -110,9 +110,9 @@
   <object id="23" x="6.5" y="440.5" width="1" height="31"/>
   <object id="24" x="152" y="443" width="2.5" height="31.5"/>
   <object id="25" x="311.5" y="442" width="1.5" height="35"/>
-  <object id="26" x="311.5" y="121" width="2.5" height="31.5"/>
-  <object id="27" x="152.5" y="121.5" width="1.5" height="31.5"/>
-  <object id="28" x="7" y="121.5" width="1" height="31"/>
+  <object id="26" x="311.5" y="136" width="2.5" height="16.5"/>
+  <object id="27" x="152.5" y="133" width="1.5" height="20"/>
+  <object id="28" x="7" y="139" width="1" height="13.5"/>
   <object id="29" x="472" y="121" width="1" height="33"/>
   <object id="30" x="630.5" y="122" width="3" height="31"/>
   <object id="33" x="-11" y="-1" width="9.5" height="479.5"/>
@@ -127,6 +127,9 @@
   <object id="43" x="508" y="149" width="7" height="6"/>
   <object id="44" x="549.5" y="31.5" width="4.5" height="9"/>
   <object id="46" x="231.5" y="36" width="1.5" height="6.5"/>
+  <object id="58" x="555" y="88">
+   <point/>
+  </object>
  </objectgroup>
  <objectgroup id="4" name="interact">
   <object id="31" x="396.5" y="464" width="20" height="17.5">

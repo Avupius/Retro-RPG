@@ -19,8 +19,8 @@
             "scale": 2,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 334.25,
-                "y": 189.25
+                "x": 320,
+                "y": 239.75
             }
         },
         "Dungeon_Map.tmx#Dungeon_1": {
@@ -71,8 +71,8 @@
             "scale": 2,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 312.25,
-                "y": 308.75
+                "x": 410,
+                "y": 239.75
             }
         },
         "Home_Map.tmx#Doors": {
@@ -103,8 +103,8 @@
             "scale": 2.5313541666666666,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 330.8505822805646,
-                "y": 230.11398707872107
+                "x": 294.90144438500477,
+                "y": 239.99012386321553
             }
         },
         "Map.tmx#Big_Oak_Tree": {
@@ -153,14 +153,14 @@
         },
         "Town_Map.tmx": {
             "expandedObjectLayers": [
-                7,
-                2
+                2,
+                7
             ],
             "scale": 2,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 250.75,
-                "y": 228.75
+                "x": 76.5,
+                "y": 239.75
             }
         },
         "Town_Map.tmx#Barn": {
