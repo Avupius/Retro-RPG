@@ -210,6 +210,87 @@ class Player(pygame.sprite.Sprite):
         if self.hp == 0:
             print("Player Down") #TODO Respawn
 
+class NPC(pygame.sprite.Sprite):
+    def __init__(self, pos, spritesheet_path="assets/Cute_Fantasy_Free/Player/Player.png", frame_width=32, frame_height=32, frames_per_row = 4):
+        super().__init__()
+
+        self.spritesheet = pygame.image.load(spritesheet_path).convert_alpha()
+        
+        #Frame Einstellungen
+        self.frame_width = frame_width
+        self.frame_height = frame_height
+        self.frames_per_row = frames_per_row
+        
+        #statisches Frame
+        self.image = self.load_frames(0,1)[0]
+        self.rect = self.image.get_rect(topleft=pos)
+
+
+        #Quest Status
+        self.quest_qiven = False
+        self.quest_completed = False
+        self.required_kills = 3
+        self.current_kills = 0
+
+        #Textanzeige
+        self.font = pygame.font.SysFont("Arial", 16)
+        self.current_text = None
+        self.text_timer = 200
+
+
+    def load_frames(self, row, count: int | None = None):
+        frames = []
+        sheet_cols = self.spritesheet.get_width() // self.frame_width
+        n = count if count is not None else min(self.frames_per_row, sheet_cols)
+        for i in range(n):
+            x = i * self.frame_width
+            y = row * self.frame_height
+            frame = self.spritesheet.subsurface(pygame.Rect(x, y, self.frame_width, self.frame_height))
+            frames.append(frame)
+        return frames
+
+
+    def interact(self, player):
+        if not self.quest_qiven:
+            self.show_text(f"Bitte besige {self.required_kills} Monster, die befinden sich nordlich von deinen Haus in einen Dungeon")
+            self.quest_qiven = True
+        
+        elif self.quest_qiven and not self.quest_completed:
+            if self.current_kills >= self.required_kills:
+                self.show_text(f"Wunderbar, unser Dorf ist jetzt sicher!!!")
+                self.quest_completed = True
+                #TODO Game abschlissen
+            else:
+                self.show_text(f"Was machst du noch hier? Du muss noch {self.required_kills - self.current_kills} Monster besiegen!!!")
+
+    def show_text(self, text, duration=2000):
+        self.current_text = self.font.render(text, True, (0, 0, 0))
+        self.text_timer = pygame.time.get_ticks() + duration
+
+    def monster_defeated(self):
+        if self.quest_qiven and not self.quest_completed:
+            self.current_kills += 1
+
+    def draw(self, surface, scale: int = 1):
+        scaled_img = pygame.transform.scale(self.image,(self.image.get_width() * scale, self.image.get_height() * scale))
+        surface.blit(scaled_img, (round(self.rect.x * scale), round(self.rect.y * scale)))
+
+        screen_w, screen_h = surface.get_size()
+
+        if self.current_text and pygame.time.get_ticks() < self.text_timer:
+            text_rect = self.current_text.get_rect(center=(screen_w // 2, screen_h - 40))
+
+            bubble_rect = text_rect.inflate(10 * scale, 6 * scale)
+            pygame.draw.rect(surface, (255, 255, 255), bubble_rect, border_radius=5)
+            pygame.draw.rect(surface, (0, 0, 0), bubble_rect, 2, border_radius=5)
+
+            surface.blit(self.current_text, text_rect)
+
+        else:
+            self.current_text = None
+
+
+
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, pos, spritesheet_path, frame_width=32, frame_height=32, frames_per_row=3, speed=1, movebox_inset: tuple[int, int] | None = None):
         super().__init__()
@@ -226,6 +307,7 @@ class Enemy(pygame.sprite.Sprite):
         self.hp = self.max_hp
         self.invu_ms = 300
         self.hurt_until = 0
+        self.meta = None
 
         #Angriffswerte
         self.melee_range = 22
@@ -424,12 +506,19 @@ class Enemy(pygame.sprite.Sprite):
     def start_death(self):
         if not self.death_frames:
             self.kill()
+            if hasattr(self, "meta"):
+                self.meta["alive"] = False
+            quest_giver.monster_defeated()
             return
         self.state = "dying"
         self.death_frames_index = 0
         self.death_timer = 0.0
         self.image = self.death_frames[0]
         
+        if hasattr(self, "meta"):
+            self.meta["alive"] = False
+        quest_giver.monster_defeated()
+
 
     def draw_hp_bar(self, surface, scale=1):
         rx = round(self.rect.x * scale)
@@ -593,7 +682,6 @@ class AttackHitbox(pygame.sprite.Sprite):
                 continue
 
             if hasattr(enemy, "take_damage"):
-                to_enemy = pygame.Vector2(enemy.rect.center) - pygame.Vector2(self.owner.rect.center)
                 enemy.take_damage(self.damage)
 
             self.hit_enemies.add(enemy)
@@ -753,6 +841,19 @@ show_menu = True
 dt = 0
 game_map = LoadMap("maps/start_map.json")
 
+pygame.mixer.init()
+
+pygame.mixer.music.load("assets/background.mp3")
+pygame.mixer.music.play(-1)
+
+# Alle NPCs global anlegen
+all_npcs = {
+    "town_map": [NPC((246,104))],
+    "dungeon_map": [],
+    "start_map": []
+}
+
+
 # -- Menü --
 #menu = pygame_menu.Menu("Hauptmenü", 800, 600, theme=pygame_menu.themes.THEME_DARK, onclose=pygame_menu.events.CLOSE)
 #menu.add.button("Spielen", pygame_menu.events.CLOSE)
@@ -766,6 +867,15 @@ attack_sprites =pygame.sprite.Group()
 
 enemies = pygame.sprite.Group()
 
+
+quest_giver = NPC((246,104))
+
+dungeon_enemies_data =[
+    {"pos": (100,60), "type": "slime", "alive": True},
+    {"pos": (555,56), "type": "slime", "alive": True},
+    {"pos": (70,412), "type": "skeleton", "alive": True},]
+
+
 # -- Player erstellen --
 player = Player((100,80), attack_sprites = attack_sprites, enemies_group = enemies)
 
@@ -776,6 +886,9 @@ while running:
     dt = clock.tick(60) / 1000
 
     for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_e:
+                    if game_map.name == "town_map" and player.rect.colliderect(quest_giver.rect):
+                        quest_giver.interact(player)
         if event.type == pygame.QUIT:
             running = False
     
@@ -792,12 +905,16 @@ while running:
     game_map = check_interactions(player, game_map)
 
     if game_map != old_map:
-        enemies.empty()
         if game_map.name == "dungeon_map":
-            enemies.add(Slime((100, 60)))
-            enemies.add(Slime((555,56)))
-            enemies.add(Skeleton((70,412)))
-            
+            for data in dungeon_enemies_data:
+                if data["alive"]:
+                    if data["type"] == "slime":
+                        enemy = Slime(data["pos"])
+                    elif data["type"] == "skeleton":
+                        enemy = Skeleton(data["pos"])
+                    enemies.add(enemy)
+                    enemy.meta = data
+
     for enemy in enemies:
         enemy.update(dt, player, collision_rects)
 
@@ -805,9 +922,13 @@ while running:
     screen.fill((0, 0, 0))
     game_map.draw(screen)
     
-    for enemy in enemies:
-        enemy.draw(screen, scale=screen_scale)
-        enemy.draw_hp_bar(screen,scale=screen_scale)
+    if game_map.name == "town_map":
+        quest_giver.draw(screen, scale=screen_scale)
+
+    if game_map.name == "dungeon_map":    
+        for enemy in enemies:
+            enemy.draw(screen, scale=screen_scale)
+            enemy.draw_hp_bar(screen,scale=screen_scale)
     
     player.draw_player(screen,scale=screen_scale)
     
@@ -815,7 +936,8 @@ while running:
     for hb in attack_sprites:
         hb.draw(screen, scale=screen_scale)
 
+
     pygame.display.flip()
 
-
+pygame.mixer.music.stop()
 pygame.quit()

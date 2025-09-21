@@ -13,14 +13,14 @@
         },
         "Dungeon_Map.tmx": {
             "expandedObjectLayers": [
-                3,
-                4
+                4,
+                3
             ],
             "scale": 2,
-            "selectedLayer": 3,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 320,
-                "y": 239.75
+                "x": 334.25,
+                "y": 189.25
             }
         },
         "Dungeon_Map.tmx#Dungeon_1": {
@@ -65,8 +65,8 @@
         },
         "Home_Map.tmx": {
             "expandedObjectLayers": [
-                3,
-                4
+                4,
+                3
             ],
             "scale": 2,
             "selectedLayer": 2,
