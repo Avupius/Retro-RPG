@@ -15,7 +15,6 @@ class NPC(pygame.sprite.Sprite):
         self.image = self.load_frames(0,1)[0]
         self.rect = self.image.get_rect(topleft=pos)
 
-
         #Quest Status
         self.quest_qiven = False
         self.quest_completed = False
@@ -27,7 +26,6 @@ class NPC(pygame.sprite.Sprite):
         self.current_text = None
         self.text_timer = 800
 
-
     def load_frames(self, row, count: int | None = None):
         frames = []
         sheet_cols = self.spritesheet.get_width() // self.frame_width
@@ -38,7 +36,6 @@ class NPC(pygame.sprite.Sprite):
             frame = self.spritesheet.subsurface(pygame.Rect(x, y, self.frame_width, self.frame_height))
             frames.append(frame)
         return frames
-
 
     def interact(self, player):
         if not self.quest_qiven:

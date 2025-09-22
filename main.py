@@ -20,7 +20,6 @@ def check_interactions(player, current_map):
                 return new_map
     return current_map
 
-
 # -- Spiel Setup --
 pygame.init()
 pygame.display.set_caption("Retro RPG")
@@ -42,7 +41,6 @@ pygame.mixer.music.load("assets/background.mp3")
 pygame.mixer.music.set_volume(0.1)
 pygame.mixer.music.play(-1)
 
-
 # -- Menü --
 #menu = pygame_menu.Menu("Hauptmenü", 800, 600, theme=pygame_menu.themes.THEME_DARK, onclose=pygame_menu.events.CLOSE)
 #menu.add.button("Spielen", pygame_menu.events.CLOSE)
@@ -50,7 +48,6 @@ pygame.mixer.music.play(-1)
 #menu.add.button("Spiel beenden", pygame_menu.events.EXIT)
 
 #menu.mainloop(screen)
-
 
 attack_sprites =pygame.sprite.Group()
 
@@ -63,7 +60,6 @@ dungeon_enemies_data =[
     {"pos": (100,60), "type": "slime", "alive": True},
     {"pos": (555,56), "type": "slime", "alive": True},
     {"pos": (70,412), "type": "skeleton", "alive": True},]
-
 
 # -- Player erstellen --
 player = Player((100,80), attack_sprites = attack_sprites, enemies_group = enemies)
@@ -88,7 +84,6 @@ while running:
     player.update(dt, collision_rects)
     
     attack_sprites.update()
-
 
     old_map = game_map
     game_map = check_interactions(player, game_map)
@@ -121,7 +116,6 @@ while running:
     
     player.draw_player(screen,scale=screen_scale)
     
-
     for hb in attack_sprites:
         hb.draw(screen, scale=screen_scale)
 

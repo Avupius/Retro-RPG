@@ -162,7 +162,6 @@ class Player(pygame.sprite.Sprite):
         pygame.draw.rect(surface, (40, 180, 40), (12, 12, int(hud_w * ratio), hud_h))
         pygame.draw.rect(surface, (0, 0, 0), (12, 12, hud_w, hud_h), 1)
 
-
     def attack(self):
         if self.attack_sprites is None or self.enemies_group is None:
             return

@@ -2,8 +2,6 @@ import pygame
 import json
 import os
 
-
-
 class LoadMap:
     def __init__(self, map):
         with open(map) as f:

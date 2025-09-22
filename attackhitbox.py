@@ -10,7 +10,6 @@ class AttackHitbox(pygame.sprite.Sprite):
         self.spawn_time = pygame.time.get_ticks()
         self.hit_enemies = set()
 
-
         px, py, pw, ph = owner.rect
         if direction == "right":
             rect = pygame.Rect(px + pw, py + (ph - width_px)//2, range_px, width_px)
@@ -38,7 +37,6 @@ class AttackHitbox(pygame.sprite.Sprite):
                 enemy.take_damage(self.damage)
 
             self.hit_enemies.add(enemy)
-
 
     def draw(self, surface, scale: int = 1):
         if scale == 1:

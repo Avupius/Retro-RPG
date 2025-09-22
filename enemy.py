@@ -1,7 +1,5 @@
 import pygame
 
-
-
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, pos, quest_giver,spritesheet_path, frame_width=32, frame_height=32, frames_per_row=3, speed=1, movebox_inset: tuple[int, int] | None = None):
         super().__init__()
