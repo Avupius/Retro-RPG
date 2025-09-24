@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="59">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="63">
  <editorsettings>
-  <export target="../../maps/dungeon_map.json" format="json"/>
+  <export target="../../maps/dungeon_map_1.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="Dungeon_1" tilewidth="16" tileheight="16" tilecount="169" columns="13">
   <image source="Cute_Fantasy_Dungeons/Dungeon_1/Dungeon_1.png" width="208" height="208"/>
@@ -137,6 +137,13 @@
     <property name="spawn_x" type="float" value="420"/>
     <property name="spawn_y" type="float" value="40"/>
     <property name="target_map" value="start_map.json"/>
+   </properties>
+  </object>
+  <object id="59" x="71.5" y="7.5" width="17" height="17">
+   <properties>
+    <property name="spawn_x" type="float" value="71"/>
+    <property name="spawn_y" type="float" value="429"/>
+    <property name="target_map" value="dungeon_map_2.json"/>
    </properties>
   </object>
  </objectgroup>

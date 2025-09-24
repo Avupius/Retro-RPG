@@ -1,7 +1,7 @@
 import pygame
 
 class NPC(pygame.sprite.Sprite):
-    def __init__(self, pos, current_kills, spritesheet_path="assets/Tileset/Cute_Fantasy/villager/Farmer_Bob.png", frame_width=64, frame_height=64, frames_per_row = 4):
+    def __init__(self, pos, current_kills, game_status, spritesheet_path="assets/Tileset/Cute_Fantasy/villager/Farmer_Bob.png", frame_width=64, frame_height=64, frames_per_row = 4):
         super().__init__()
 
         self.spritesheet = pygame.image.load(spritesheet_path).convert_alpha()
@@ -18,7 +18,8 @@ class NPC(pygame.sprite.Sprite):
         #Quest Status
         self.quest_qiven = False
         self.quest_completed = False
-        self.required_kills = 3
+        self.completed_at = None
+        self.required_kills = 8
         self.current_kills = current_kills
 
         #Textanzeige
@@ -47,6 +48,8 @@ class NPC(pygame.sprite.Sprite):
                 self.show_text(f"Wunderbar, unser Dorf ist jetzt sicher!!!")
                 self.quest_completed = True
                 #TODO Game abschlissen
+                self.completed_at = pygame.time.get_ticks()
+
             else:
                 self.show_text(f"Was machst du noch hier? Du muss noch {self.required_kills - self.current_kills} Monster besiegen!!!")
 

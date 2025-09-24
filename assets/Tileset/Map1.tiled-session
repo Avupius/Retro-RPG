@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Dungeon_Map.tmx",
+    "activeFile": "Town_Map.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -11,16 +11,31 @@
         "": {
             "scaleInDock": 1
         },
+        "#Dungeon_2": {
+            "scaleInDock": 1
+        },
+        "#Dungeon_2_Pillars": {
+            "scaleInDock": 1
+        },
+        "#Dungeon_2_Sewer_Tileset": {
+            "scaleInDock": 1
+        },
+        "#Dungeon_2_Stairs": {
+            "scaleInDock": 1
+        },
+        "#Dungeon_2_Stairs_Down": {
+            "scaleInDock": 1
+        },
         "Dungeon_Map.tmx": {
             "expandedObjectLayers": [
-                4,
-                3
+                3,
+                4
             ],
             "scale": 2,
-            "selectedLayer": 2,
+            "selectedLayer": 3,
             "viewCenter": {
                 "x": 334.25,
-                "y": 189.25
+                "y": 283.75
             }
         },
         "Dungeon_Map.tmx#Dungeon_1": {
@@ -53,6 +68,45 @@
         "Dungeon_Map.tmx#Small_Wooden_Bridge": {
             "scaleInDock": 1
         },
+        "Dungeon_Map_2.tmx": {
+            "expandedObjectLayers": [
+                4,
+                5
+            ],
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 332.33333333333326,
+                "y": 255
+            }
+        },
+        "Dungeon_Map_2.tmx#Dungeon_2": {
+            "scaleInDock": 1
+        },
+        "Dungeon_Map_2.tmx#Dungeon_2_Pillars": {
+            "scaleInDock": 1
+        },
+        "Dungeon_Map_2.tmx#Dungeon_2_Sewer_Tileset": {
+            "scaleInDock": 1
+        },
+        "Dungeon_Map_2.tmx#Dungeon_2_Stairs": {
+            "scaleInDock": 1
+        },
+        "Dungeon_Map_2.tmx#Dungeon_2_Stairs_Down": {
+            "scaleInDock": 1
+        },
+        "Dungeon_Map_2.tmx#Dungeon_Objects": {
+            "scaleInDock": 1
+        },
+        "Dungeon_Map_2.tmx#Metal_Grills": {
+            "scaleInDock": 1
+        },
+        "Dungeon_Map_2.tmx#Sewer_Water_Decor": {
+            "scaleInDock": 1
+        },
+        "Dungeon_Map_2.tmx#Small_Wooden_Bridge": {
+            "scaleInDock": 1
+        },
         "Grass.tsx": {
             "dynamicWrapping": true,
             "scaleInDock": 1,
@@ -65,13 +119,13 @@
         },
         "Home_Map.tmx": {
             "expandedObjectLayers": [
-                4,
-                3
+                3,
+                4
             ],
             "scale": 2,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 410,
+                "x": 409.75,
                 "y": 239.75
             }
         },
@@ -115,6 +169,12 @@
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "Map.tmx#Dungeon_2_Arch_Open": {
+            "scaleInDock": 1
+        },
+        "Map.tmx#Dungeon_2_Arch_small": {
+            "scaleInDock": 1
+        },
         "Map.tmx#FarmLand_Tile": {
             "scaleInDock": 1,
             "scaleInEditor": 1
@@ -153,13 +213,13 @@
         },
         "Town_Map.tmx": {
             "expandedObjectLayers": [
-                2,
-                7
+                7,
+                2
             ],
             "scale": 2,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 76.5,
+                "x": 217.25,
                 "y": 239.75
             }
         },
@@ -225,7 +285,7 @@
     },
     "last.exportedFilePath": "/home/ck/git/pygame/maps",
     "last.externalTilesetPath": "/home/ck/git/pygame/assets/Tileset/Cute_Fantasy/Trees",
-    "last.imagePath": "/home/ck/git/pygame/assets/Tileset/Cute_Fantasy/Enemies/Slime/Slime_Big",
+    "last.imagePath": "/home/ck/git/pygame/assets/Tileset/Cute_Fantasy_Dungeons/Objects",
     "map.height": 30,
     "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
@@ -241,10 +301,10 @@
     "project": "Map1.tiled-project",
     "property.type": "float",
     "recentFiles": [
-        "Town_Map.tmx",
-        "Home_Map.tmx",
-        "Map.tmx",
         "Dungeon_Map.tmx",
+        "Map.tmx",
+        "Home_Map.tmx",
+        "Town_Map.tmx",
         "Grass2.tsx",
         "Grass.tsx"
     ],

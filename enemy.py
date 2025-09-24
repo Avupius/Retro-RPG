@@ -334,7 +334,7 @@ class Skeleton(Enemy):
         
         #Startbild idle
         self.idle_frames = self.load_frames(row_idle)
-        self.image = self.idle_frames
+        self.image = self.idle_frames[0]
 
         #Move-Frames
         self.frames["down"] = self.load_frames(3)

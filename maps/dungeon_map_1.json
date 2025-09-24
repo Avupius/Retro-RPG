@@ -512,6 +512,33 @@
                  "width":20,
                  "x":396.5,
                  "y":464
+                }, 
+                {
+                 "height":17,
+                 "id":59,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"spawn_x",
+                         "type":"float",
+                         "value":71
+                        }, 
+                        {
+                         "name":"spawn_y",
+                         "type":"float",
+                         "value":429
+                        }, 
+                        {
+                         "name":"target_map",
+                         "type":"string",
+                         "value":"dungeon_map_2.json"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":17,
+                 "x":71.5,
+                 "y":7.5
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -520,7 +547,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":59,
+ "nextobjectid":63,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",
