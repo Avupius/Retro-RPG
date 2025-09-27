@@ -4,7 +4,7 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self, pos, quest_giver,spritesheet_path, frame_width=32, frame_height=32, frames_per_row=3, speed=1, movebox_inset: tuple[int, int] | None = None):
         super().__init__()
         self.spritesheet = pygame.image.load(spritesheet_path).convert_alpha()
-        
+
         #Pixel Einstellungen
         self.frame_width = frame_width
         self.frame_height = frame_height
@@ -39,11 +39,12 @@ class Enemy(pygame.sprite.Sprite):
         self.frame_index = 0
         self.animation_timer = 0
         self.image = self.frames[self.direction][self.frame_index]
-        
+
         #Weltposition (nicht skaliert)
         self.pos = pygame.Vector2(pos)
         self.rect = self.image.get_rect(topleft=pos)
 
+        #Kleinere Movebox für Slime
         if movebox_inset is not None:
             self.inset = pygame.Vector2(movebox_inset)
             self.movebox = self.rect.inflate(-int(self.inset.x * 2),-int(self.inset.y * 2))
@@ -71,9 +72,11 @@ class Enemy(pygame.sprite.Sprite):
         self.attack_has_hit = False
 
 
+    #Hilfefunktion um ein Stilles Frame zu setzen
     def set_idle_image(self, frame=0):
         self.image = self.frames[self.direction][frame]
 
+    #Laden von Frames
     def load_frames(self, row, count: int | None = None):
         frames = []
         sheet_cols = self.spritesheet.get_width() // self.frame_width
@@ -85,13 +88,14 @@ class Enemy(pygame.sprite.Sprite):
             frames.append(frame)
         return frames
 
+    #Zeichen von Gegnern
     def draw(self, surface, scale: int = 1):
         scaled_img = pygame.transform.scale(self.image,(self.image.get_width() * scale, self.image.get_height() * scale))
         surface.blit(scaled_img, (round(self.rect.x * scale), round(self.rect.y * scale)))
 
-
+    #Aktualisierung von Enemyzustand
     def update(self, dt, player, collision_rects):
-        
+
         if self.state == "dying":
             self.death_timer += dt * 1000
             if self.death_timer >= self.death_frames_ms:
@@ -110,15 +114,12 @@ class Enemy(pygame.sprite.Sprite):
             self.rect.topleft = (round(self.pos.x), round(self.pos.y))
             return
 
-        
-        
         player_center = pygame.Vector2(player.rect.center)
         slime_center = pygame.Vector2(self.rect.center)
 
         distance = player_center - slime_center
         dist_len = distance.length()
 
-        
         if dist_len < 250:
 
             if dist_len > 20:
@@ -136,7 +137,6 @@ class Enemy(pygame.sprite.Sprite):
                 self.move_and_collide(dx, 0, collision_rects)
                 self.move_and_collide(0, dy, collision_rects)
 
-
                 #Move-Animation
                 self.animation_timer += dt * 1000
                 if self.animation_timer > 200:
@@ -148,21 +148,21 @@ class Enemy(pygame.sprite.Sprite):
                 self.set_idle_image()
         else:
             self.set_idle_image()
-        
+
         #Enemy angriff auf Player
         player_center = pygame.Vector2(player.rect.center)
         slime_center = pygame.Vector2(self.rect.center)
         if (player_center - slime_center).length() <= self.melee_range and self.action != "attack":
             self.start_attack()
 
-    
-    #Kollision prüfung
+
+    #Kollision prüfung mit movebox 
     def move_and_collide(self, dx, dy, collision_rects):
         if dx == 0 and dy == 0:
             return
 
         if self.movebox is not None:
-            
+
             if dx != 0:
                 self.movebox.x += dx
                 for solid in collision_rects:
@@ -213,6 +213,7 @@ class Enemy(pygame.sprite.Sprite):
         if self.hp == 0:
             self.start_death()
 
+    #Trigger für Tod-Animationen
     def start_death(self):
         if not self.death_frames:
             self.kill()
@@ -224,12 +225,12 @@ class Enemy(pygame.sprite.Sprite):
         self.death_frames_index = 0
         self.death_timer = 0.0
         self.image = self.death_frames[0]
-        
+
         if hasattr(self, "meta"):
             self.meta["alive"] = False
         self.quest_giver.monster_defeated()
 
-
+    #Zeichen von HP-Bar
     def draw_hp_bar(self, surface, scale=1):
         rx = round(self.rect.x * scale)
         ry = round(self.rect.y * scale)
@@ -249,6 +250,7 @@ class Enemy(pygame.sprite.Sprite):
         pygame.draw.rect(surface, (0, 0, 0), back, 1)
 
 
+    #Änderung auf Angriffzustand
     def start_attack(self):
         if self.state != "alive":
             return
@@ -261,6 +263,7 @@ class Enemy(pygame.sprite.Sprite):
         self.attack_has_hit = False
         self.image = self.attack_frames[0]
 
+    #Angriffspeed begrenzung
     def tick_attack(self, dt, player):
         self.attack_timer += dt * 1000
         if self.attack_timer >= self.attack_frame_ms:
@@ -278,6 +281,7 @@ class Enemy(pygame.sprite.Sprite):
 
             self.image = self.attack_frames[self.attack_index]
 
+    #Schaden aufzeichnung
     def apply_melee_damage_now(self, player=None):
         now = pygame.time.get_ticks()
         if now - self.last_attack_ms < self.attack_cooldown_ms:
@@ -289,14 +293,14 @@ class Enemy(pygame.sprite.Sprite):
 class Slime(Enemy):
     def __init__(self, pos, quest_giver):
         super().__init__(pos, quest_giver, "assets/Tileset/Cute_Fantasy/Enemies/Slime/Slime_Big/Slime_Big_Green.png", frame_width=64, frame_height=64, frames_per_row=8, speed=50, movebox_inset=(16,16))
-        
+
         #Reihen in Teilset
         row_idle = 0
         row_move = 1
         row_death = 2
         row_attack = 3
 
-        self.idle_frames = self.load_frames(row_idle, count=4)
+        #Angriff-Frames
         self.attack_frames = self.load_frames(row_attack, count=4)
 
         #Move-Frames
@@ -311,7 +315,7 @@ class Slime(Enemy):
         self.death_frames_ms = 150
 
         #Startbild Idle
-        self.frame_index = 0
+        self.idle_frames = self.load_frames(row_idle, count=4)
         self.image = self.idle_frames[0]
 
         #Slimewerte
@@ -320,6 +324,7 @@ class Slime(Enemy):
         self.contact_damage = 5
         self.melee_range = 24
 
+    #Extra Funktion für Slime (andere Massen von Tileset)
     def set_idle_image(self, frame=0):
         self.image = self.idle_frames[frame]
 
@@ -331,7 +336,7 @@ class Skeleton(Enemy):
         row_idle = 0
         row_death = 6
         row_attack = 7
-        
+
         #Startbild idle
         self.idle_frames = self.load_frames(row_idle)
         self.image = self.idle_frames[0]

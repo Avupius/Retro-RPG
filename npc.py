@@ -27,6 +27,7 @@ class NPC(pygame.sprite.Sprite):
         self.current_text = None
         self.text_timer = 800
 
+    #Laden von Frames für Animationen
     def load_frames(self, row, count: int | None = None):
         frames = []
         sheet_cols = self.spritesheet.get_width() // self.frame_width
@@ -38,7 +39,8 @@ class NPC(pygame.sprite.Sprite):
             frames.append(frame)
         return frames
 
-    def interact(self, player):
+    #Interagieren mit Spielr
+    def interact(self):
         if not self.quest_qiven:
             self.show_text(f"Bitte besige {self.required_kills} Monster, die befinden sich nordlich von deinen Haus in einen Dungeon")
             self.quest_qiven = True
@@ -53,14 +55,17 @@ class NPC(pygame.sprite.Sprite):
             else:
                 self.show_text(f"Was machst du noch hier? Du muss noch {self.required_kills - self.current_kills} Monster besiegen!!!")
 
+    #Sprechblasen von NPC
     def show_text(self, text, duration=2000):
         self.current_text = self.font.render(text, True, (0, 0, 0))
         self.text_timer = pygame.time.get_ticks() + duration
 
+    #Funktion die zählt wenn Monster umgebracht werden
     def monster_defeated(self):
         if not self.quest_completed:
             self.current_kills += 1
 
+    #Zeichen von NPC und Sprechblasen
     def draw(self, surface, scale: int = 1):
         scaled_img = pygame.transform.scale(self.image,(self.image.get_width() * scale, self.image.get_height() * scale))
         surface.blit(scaled_img, (round(self.rect.x * scale), round(self.rect.y * scale)))

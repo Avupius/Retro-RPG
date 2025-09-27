@@ -7,16 +7,20 @@ class LoadMap:
         with open(map) as f:
             self.map_data = json.load(f)
 
+        #Daten aus der Map
         self.tile_width = self.map_data["tilewidth"]
         self.tile_height = self.map_data["tileheight"]
         self.width = self.map_data["width"]
         self.height = self.map_data["height"]
+
+        #Werte um die Map zu zeichnen
         self.scale = 2
         self.interact_areas = self.load_interactions_areas()
         self.tilesets = self.load_tilesets()
         self.layers = [layer for layer in self.map_data["layers"] if layer["type"] == "tilelayer"]
         self.name = os.path.splitext(os.path.basename(map))[0]
 
+    #Laden der Tiles aus assets
     def load_tilesets(self):
         tilesets = []
         for ts in self.map_data["tilesets"]:
@@ -34,14 +38,16 @@ class LoadMap:
             })
         return tilesets
 
+    #Hildefunktion um die tiles mit gid zu bekommen
     def get_tile_image_by_gid(self, gid):
+
         if gid == 0:
             return None
-        
+
         for ts in reversed(self.tilesets):
             if gid >= ts["firstgid"]:
                 local_id = gid - ts["firstgid"]
-                
+ 
                 if local_id >= ts["tilecount"]:
                     return None
 
@@ -54,12 +60,13 @@ class LoadMap:
                 if rect.right > ts["image"].get_width() or rect.bottom > ts["image"].get_height():
                     print(f"Ungültiger GID {gid} für Tileset {ts}")
                     return None 
-                
+ 
                 return ts["image"].subsurface(rect)
-        
+ 
         print(f"Kein Tileset gefunden {gid}")
         return None
 
+    #Zeichen der Tiles
     def draw(self, surface):
         for layer in self.layers:
             data = layer["data"]
@@ -71,6 +78,7 @@ class LoadMap:
                     scaled_tile = pygame.transform.scale(tile, (self.tile_width * self.scale, self.tile_height * self.scale))
                     surface.blit(scaled_tile, (x * self.scale, y * self.scale))
 
+    #Auslesen von collision layer und Aufbau von collision rects
     def get_collision_rects(self):
         rect_list = []
         for layer in self.map_data["layers"]:
@@ -83,6 +91,7 @@ class LoadMap:
                     rect_list.append(pygame.Rect(x, y, w, h))
         return rect_list
 
+    #Auslesen von interact layer und Aufbau von Interaction rects
     def load_interactions_areas(self):
         areas = []
         for layer in self.map_data["layers"]:

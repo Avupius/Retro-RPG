@@ -7,7 +7,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         self.spritesheet = pygame.image.load("assets/Cute_Fantasy_Free/Player/Player.png").convert_alpha()
 
-        #Einstellungen
+        #Frames Einstellungen
         self.frame_width = 32
         self.frame_height = 32
         self.frames_per_row = 6
@@ -25,7 +25,7 @@ class Player(pygame.sprite.Sprite):
             "left": [pygame.transform.flip(f,True, False) for f in self.load_frames(1)]
             }
 
-        #Startwerte
+        #Startwerte von Frames
         self.direction = "down"
         self.frame_index = 0
         self.animation_timer = 0
@@ -34,7 +34,7 @@ class Player(pygame.sprite.Sprite):
         self.pos = pygame.Vector2(self.rect.topleft)
         self.speed = 100
 
-        #Playerwerte
+        #Startwerte für Player
         self.max_hp = 100
         self.hp = self.max_hp
         self.invu_ms = 700
@@ -48,7 +48,7 @@ class Player(pygame.sprite.Sprite):
         self.attack_cooldown = 350
         self.last_attack_time = -1_000_000
 
-        #Angrifsprites 
+        #Angrifsprites
         self.attack_frames = {
             "right": self.load_frames(7,count=4),
             "down": self.load_frames(6,count=4),
@@ -78,6 +78,7 @@ class Player(pygame.sprite.Sprite):
             frames.append(frame)
         return frames
 
+    #Updatefunktion um das Verhalten der Player zu aktualisieren
     def update(self, dt, collision_rect):
         keys = pygame.key.get_pressed()
         if self.mode != "attack":
@@ -150,6 +151,7 @@ class Player(pygame.sprite.Sprite):
                 self.spawn_attack_hitbox(direction_override=self.attack_dir_on_start)
 
 
+    #Zeichen von Player und HP-Bar
     def draw_player(self, surface, scale):
         scaled_image = pygame.transform.scale(self.image, (self.image.get_width() * scale, self.image.get_height() * scale))
         surface.blit(scaled_image, (round(self.rect.x * scale), round(self.rect.y * scale)))
@@ -162,6 +164,7 @@ class Player(pygame.sprite.Sprite):
         pygame.draw.rect(surface, (40, 180, 40), (12, 12, int(hud_w * ratio), hud_h))
         pygame.draw.rect(surface, (0, 0, 0), (12, 12, hud_w, hud_h), 1)
 
+    #Angriffstatus und Sound
     def attack(self):
         if self.attack_sprites is None or self.enemies_group is None:
             return
@@ -190,7 +193,7 @@ class Player(pygame.sprite.Sprite):
             enemies_group = self.enemies_group
         )
         self.attack_sprites.add(hitbox)
-
+    #Player HP Berechnung
     def take_damage(self, amount):
         now = pygame.time.get_ticks()
         if now < self.hurt_until:

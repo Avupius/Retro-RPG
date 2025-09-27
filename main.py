@@ -1,9 +1,6 @@
-import re
-from numpy import e
-import pygame 
+import pygame
 import pygame_menu
 from player import Player
-from npc import NPC
 from enemy import Slime
 from enemy import Skeleton
 from npc import NPC
@@ -23,7 +20,6 @@ def check_interactions(player, current_map):
     return current_map
 
 def respawn(player):
-    
     new_map = LoadMap("maps/home_map.json")
 
     #Respawn-Position
@@ -53,29 +49,25 @@ dt = 0
 game_map = LoadMap("maps/start_map.json")
 game_status = "running"
 
-
+# -- Mixer -- Hintergrund --
 pygame.mixer.init()
 
-# -- Mixer -- Hintergrund --
 pygame.mixer.music.load("assets/background.mp3")
 pygame.mixer.music.set_volume(0.1)
 pygame.mixer.music.play(-1)
 
 # -- Menü --
-#menu = pygame_menu.Menu("Hauptmenü", 800, 600, theme=pygame_menu.themes.THEME_DARK, onclose=pygame_menu.events.CLOSE)
-#menu.add.button("Spielen", pygame_menu.events.CLOSE)
-#menu.add.button("Spiel laden")
-#menu.add.button("Spiel beenden", pygame_menu.events.EXIT)
+menu = pygame_menu.Menu("Hauptmenü", 800, 600, theme=pygame_menu.themes.THEME_DARK, onclose=pygame_menu.events.CLOSE)
+menu.add.button("Spielen", pygame_menu.events.CLOSE)
+menu.add.button("Spiel beenden", pygame_menu.events.EXIT)
 
-#menu.mainloop(screen)
+menu.mainloop(screen)
 
+# -- Groups --
 attack_sprites =pygame.sprite.Group()
-
 enemies = pygame.sprite.Group()
 
-
-quest_giver = NPC((246,104), total_monster_kills, game_status)
-
+#Gegnerdaten für beide Dungeon Maps
 dungeon_1_enemies_data =[
     {"pos": (100,60), "type": "slime", "alive": True},
     {"pos": (555,56), "type": "slime", "alive": True},
@@ -91,6 +83,9 @@ dungeon_2_enemies_data= [
 # -- Player erstellen --
 player = Player((100,80), attack_sprites = attack_sprites, enemies_group = enemies)
 
+# -- NPC Quest-qiver erstellen --
+quest_giver = NPC((246,104), total_monster_kills, game_status)
+
 # -- Game Loop--
 while running:
 
@@ -98,22 +93,22 @@ while running:
         # Frames Berechnung
         dt = clock.tick(60) / 1000
 
+        #Event Loop 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_e:
                         if game_map.name == "town_map" and player.rect.colliderect(quest_giver.rect):
                             quest_giver.interact(player)
             if event.type == pygame.QUIT:
                 running = False
-        
-        screen.fill((0, 0, 0))
 
         # Player movment & Kollsion
         collision_rects = game_map.get_collision_rects()
         player.update(dt, collision_rects)
 
+        #Ob Player noch Lebt
         if player.hp <= 0:
             game_map = respawn(player)
-        
+
         attack_sprites.update()
 
         old_map = game_map
@@ -148,7 +143,8 @@ while running:
         # Bildshirm zeichen
         screen.fill((0, 0, 0))
         game_map.draw(screen)
-        
+ 
+        #Prüfung auf welche Map geladen wurde
         if game_map.name == "town_map":
             quest_giver.draw(screen, scale=screen_scale)
 
@@ -156,9 +152,10 @@ while running:
             for enemy in enemies:
                 enemy.draw(screen, scale=screen_scale)
                 enemy.draw_hp_bar(screen,scale=screen_scale)
-        
+ 
+        #Player zeichnen
         player.draw_player(screen,scale=screen_scale)
-        
+ 
         for hb in attack_sprites:
             hb.draw(screen, scale=screen_scale)
 
@@ -169,14 +166,16 @@ while running:
             if pygame.time.get_ticks() - quest_giver.completed_at > 5000:
                 game_status = "completed"
 
+    #Das Spiel nach der Abgabe von Quest
     elif game_status == "completed":
-        
+ 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN and event.key == pygame.K_q:
                 running = False
 
+        #EndScreen zeichen mit Text
         screen.fill((0, 0, 0))
         font = pygame.font.SysFont("Arial", 48, bold=True)
         text = font.render("GAME COMPLETED!", True, (255, 255, 255))
