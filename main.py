@@ -1,5 +1,4 @@
 import pygame
-import pygame_menu
 from player import Player
 from enemy import Slime
 from enemy import Skeleton
@@ -43,8 +42,7 @@ screen_y = 480 * screen_scale
 screen = pygame.display.set_mode((screen_x, screen_y))
 clock = pygame.time.Clock()
 running = True
-show_menu = True
-total_monster_kills = 0
+
 dt = 0
 game_map = LoadMap("maps/start_map.json")
 game_status = "running"
@@ -55,13 +53,6 @@ pygame.mixer.init()
 pygame.mixer.music.load("assets/background.mp3")
 pygame.mixer.music.set_volume(0.1)
 pygame.mixer.music.play(-1)
-
-# -- Menü --
-menu = pygame_menu.Menu("Hauptmenü", 800, 600, theme=pygame_menu.themes.THEME_DARK, onclose=pygame_menu.events.CLOSE)
-menu.add.button("Spielen", pygame_menu.events.CLOSE)
-menu.add.button("Spiel beenden", pygame_menu.events.EXIT)
-
-menu.mainloop(screen)
 
 # -- Groups --
 attack_sprites =pygame.sprite.Group()
@@ -84,7 +75,7 @@ dungeon_2_enemies_data= [
 player = Player((100,80), attack_sprites = attack_sprites, enemies_group = enemies)
 
 # -- NPC Quest-qiver erstellen --
-quest_giver = NPC((246,104), total_monster_kills, game_status)
+quest_giver = NPC((246,104))
 
 # -- Game Loop--
 while running:
@@ -97,7 +88,7 @@ while running:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_e:
                         if game_map.name == "town_map" and player.rect.colliderect(quest_giver.rect):
-                            quest_giver.interact(player)
+                            quest_giver.interact()
             if event.type == pygame.QUIT:
                 running = False
 

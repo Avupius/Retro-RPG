@@ -282,7 +282,7 @@ class Enemy(pygame.sprite.Sprite):
             self.image = self.attack_frames[self.attack_index]
 
     #Schaden aufzeichnung
-    def apply_melee_damage_now(self, player=None):
+    def apply_melee_damage_now(self, player):
         now = pygame.time.get_ticks()
         if now - self.last_attack_ms < self.attack_cooldown_ms:
             return

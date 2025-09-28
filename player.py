@@ -21,7 +21,6 @@ class Player(pygame.sprite.Sprite):
             "down": self.load_frames(3),
             "up": self.load_frames(2),
             "right": self.load_frames(1),
-            "down": self.load_frames(3),
             "left": [pygame.transform.flip(f,True, False) for f in self.load_frames(1)]
             }
 
@@ -202,5 +201,3 @@ class Player(pygame.sprite.Sprite):
         self.hp = max(0, self.hp - amount)
         self.hurt_until = now + self.invu_ms
 
-        if self.hp == 0:
-            print("Player Down") #TODO Respawn
