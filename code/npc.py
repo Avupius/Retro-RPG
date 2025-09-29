@@ -42,17 +42,17 @@ class NPC(pygame.sprite.Sprite):
     #Interagieren mit Spielr
     def interact(self):
         if not self.quest_qiven:
-            self.show_text(f"Bitte besige {self.required_kills} Monster, die befinden sich nordlich von deinen Haus in einen Dungeon")
+            self.show_text(f"Besiege {self.required_kills} Monster im Dungeon nördlich von deinem Haus!")
             self.quest_qiven = True
         
         elif not self.quest_completed:
             if self.current_kills >= self.required_kills:
-                self.show_text(f"Wunderbar, unser Dorf ist jetzt sicher!!!")
+                self.show_text("Wunderbar, unser Dorf ist jetzt sicher!")
                 self.quest_completed = True
                 self.completed_at = pygame.time.get_ticks()
 
             else:
-                self.show_text(f"Was machst du noch hier? Du muss noch {self.required_kills - self.current_kills} Monster besiegen!!!")
+                self.show_text(f"Was machst du noch hier? Du musst noch {self.required_kills - self.current_kills} Monster besiegen!!!")
 
     #Sprechblasen von NPC
     def show_text(self, text, duration=2000):
